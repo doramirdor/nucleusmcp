@@ -1,0 +1,12 @@
+bin/
+dist/
+*.log
+.DS_Store
+.nucleusmcp/
+config.local.toml
+.idea/
+.vscode/
+
+# vhs temp files (the .gif outputs are committed)
+*.ascii
+*.webm

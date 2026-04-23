@@ -1,0 +1,26 @@
+# NucleusMCP — M1 example config.
+#
+# Copy to ~/.nucleusmcp/config.toml and edit.
+#
+# In M1 connectors are declared directly here with the command + env needed
+# to run the upstream MCP server. In M2 this file will shrink to gateway
+# settings only and connectors will be managed via `nucleusmcp add`.
+
+[[connector]]
+name    = "supabase"
+command = "npx"
+args    = ["-y", "@supabase/mcp-server-supabase@latest"]
+
+  [connector.env]
+  # Get a personal access token at https://supabase.com/dashboard/account/tokens
+  SUPABASE_ACCESS_TOKEN = "sbp_replace_me"
+
+# Example: a second connector. Tool names are prefixed by connector name,
+# so no collisions even if both children expose "list_projects".
+#
+# [[connector]]
+# name    = "github"
+# command = "npx"
+# args    = ["-y", "@modelcontextprotocol/server-github"]
+#   [connector.env]
+#   GITHUB_PERSONAL_ACCESS_TOKEN = "ghp_..."
