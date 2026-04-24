@@ -41,18 +41,20 @@ changelog:
 release:
   draft: true
 
-# Homebrew tap publishing. Disabled until `doramirdor/homebrew-tap` exists
-# and the HOMEBREW_TAP_TOKEN secret is set in the repo. Uncomment once both
-# are in place.
-#
-# brews:
-#   - name: nucleus
-#     repository:
-#       owner: doramirdor
-#       name: homebrew-tap
-#       token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
-#     homepage: https://github.com/doramirdor/nucleusmcp
-#     description: "Profile-aware MCP gateway — one connector, many accounts"
-#     license: MIT
-#     install: |
-#       bin.install "nucleus"
+# Homebrew tap publishing. Requires `doramirdor/homebrew-tap` to exist
+# (it does, empty shell) and the HOMEBREW_TAP_TOKEN secret in this repo
+# to carry a PAT with write access to the tap. goreleaser commits a
+# Formula/nucleus.rb to the tap on every release tag.
+brews:
+  - name: nucleus
+    repository:
+      owner: doramirdor
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    homepage: https://github.com/doramirdor/nucleusmcp
+    description: "Profile-aware MCP gateway — one connector, many accounts"
+    license: MIT
+    install: |
+      bin.install "nucleus"
+    test: |
+      system "#{bin}/nucleus", "--version"

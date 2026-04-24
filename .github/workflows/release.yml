@@ -29,6 +29,6 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Uncomment + set this secret once you create the homebrew-tap repo.
-          # A classic PAT with `repo` scope on doramirdor/homebrew-tap works.
-          # HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          # Cross-repo token for publishing the Homebrew formula to
+          # doramirdor/homebrew-tap. Must carry `repo` scope on that tap.
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}

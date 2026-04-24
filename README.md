@@ -44,25 +44,43 @@ Tool descriptions carry the profile context (`[supabase/prod project_id=…]`) s
 
 ## Install
 
+### Homebrew (macOS / Linux)
+
 ```bash
-# Build from source (requires Go 1.23+)
+brew install doramirdor/homebrew-tap/nucleus
+```
+
+### `go install`
+
+```bash
+go install github.com/doramirdor/nucleusmcp/cmd/nucleus@latest
+```
+
+(Requires Go 1.23+. Binary lands in `$GOBIN`, usually `~/go/bin`.)
+
+### Pre-built binaries
+
+Download the archive for your platform from [the latest release](https://github.com/doramirdor/nucleusmcp/releases/latest), extract, and drop `nucleus` on your PATH.
+
+### From source
+
+```bash
 git clone https://github.com/doramirdor/nucleusmcp
 cd nucleusmcp
 make install
-
-# Make sure Go's bin is on PATH (add to your shell rc if needed)
-export PATH="$HOME/go/bin:$PATH"
-
+export PATH="$HOME/go/bin:$PATH"   # if not already
 nucleus --version
 ```
 
-Register with Claude Code (detects the `claude` CLI and runs `claude mcp add`):
+### Register with Claude Code
+
+After install, wire the gateway into Claude:
 
 ```bash
 nucleus install
 ```
 
-Releases with pre-built binaries (Homebrew tap, Scoop, apt/rpm) are on the roadmap.
+This runs `claude mcp add nucleus …` for you if the `claude` CLI is on PATH, otherwise it prints a config snippet to paste manually.
 
 ## Quick start
 

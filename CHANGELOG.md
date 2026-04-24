@@ -2,24 +2,26 @@
 
 All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) (starting at 0.1.0).
 
-## [Unreleased]
+## [0.1.2] — 2026-04-24
 
 ### Changed
 - **CLI binary renamed `nucleusmcp` → `nucleus`.** The directory at `cmd/nucleusmcp/` moved to `cmd/nucleus/`; the default binary produced by `make install` is now `nucleus`. The MCP server identity advertised to clients (Claude, Cursor, …) is also now `nucleus`. Product name in prose stays **NucleusMCP**.
 - Go module path is unchanged (`github.com/doramirdor/nucleusmcp`).
 - On-disk storage paths (`~/.nucleusmcp/registry.db`, `~/.nucleusmcp/oauth/…`, `~/.nucleusmcp/connectors/…`) and the OS keychain service string (`nucleusmcp`) are unchanged, so existing profiles and credentials remain accessible after the rename.
 
+### Added
+- **Homebrew tap** — `brew install doramirdor/homebrew-tap/nucleus` now works; goreleaser publishes the formula automatically on tag push.
+- **`go install`** path documented: `go install github.com/doramirdor/nucleusmcp/cmd/nucleus@latest`.
+
+### Fixed
+- `.github/workflows/ci.yml` follows the `cmd/` rename.
+
 ### Migration for pre-rename installs
 ```bash
-# Rebuild to produce the new `nucleus` binary
-make install
-
-# Update Claude's registration
-claude mcp remove nucleusmcp
-nucleus install
-
-# Optionally update any /usr/local/bin symlink
-sudo ln -sf "$HOME/go/bin/nucleus" /usr/local/bin/nucleus
+make install                                          # builds bin/nucleus
+claude mcp remove nucleusmcp                          # drop old MCP entry
+nucleus install                                       # re-register as "nucleus"
+sudo ln -sf "$HOME/go/bin/nucleus" /usr/local/bin/nucleus   # optional
 ```
 
 ## [0.1.1] — 2026-04-23
