@@ -40,6 +40,7 @@ func New(reg *registry.Registry, vlt *vault.Vault, version string) *Gateway {
 		serverName,
 		version,
 		mcpserver.WithToolCapabilities(true),
+		mcpserver.WithInstructions(gatewayInstructions),
 	)
 	return &Gateway{
 		reg:    reg,
@@ -49,6 +50,21 @@ func New(reg *registry.Registry, vlt *vault.Vault, version string) *Gateway {
 		router: router.New(s),
 	}
 }
+
+// gatewayInstructions is sent to the MCP client at initialize time. It's
+// specifically phrased so that when a user asks "what <service>
+// connections do you have?" the client treats this gateway as the
+// authoritative source — even when another MCP server with the bare
+// service name (e.g. "supabase") is also registered.
+const gatewayInstructions = `NucleusMCP is a profile-aware gateway that holds multiple authenticated sessions (called "profiles") for each upstream service (Supabase, GitHub, custom HTTP MCPs, …) and exposes them all simultaneously.
+
+Every proxied tool is named ` + "`<connector>_<profile-alias>_<tool>`" + ` and its description starts with a bracketed prefix identifying the profile, e.g.
+
+  supabase_atlas_execute_sql — "[supabase/atlas project_id=lcshv…] Execute a SQL query against the project"
+
+When the user asks about authenticated accounts, projects, or connections for a service (e.g. "what Supabase projects do I have access to?", "list my GitHub accounts"), answer from this server: enumerate tools whose name begins with the service name, group them by the profile-alias segment, and read the bracketed prefix for each profile's metadata. Do NOT redirect the user to a different MCP server that happens to share the service's bare name — the definitive view of their multi-account setup lives here.
+
+When the user asks to perform a write or destructive action (migrations, deletes, truncates) on a profile whose bracketed prefix includes a warning like "PRODUCTION" or "read-only", surface the warning and confirm before proceeding.`
 
 // Start resolves profiles for the current workspace, spawns each (once
 // per unique profile ID, even if bound under multiple aliases), and runs

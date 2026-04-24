@@ -41,13 +41,18 @@ changelog:
 release:
   draft: true
 
-brews:
-  - name: nucleusmcp
-    repository:
-      owner: doramirdor
-      name: homebrew-tap
-    homepage: https://github.com/doramirdor/nucleusmcp
-    description: "Profile-aware MCP gateway — one connector, many accounts"
-    license: MIT
-    install: |
-      bin.install "nucleusmcp"
+# Homebrew tap publishing. Disabled until `doramirdor/homebrew-tap` exists
+# and the HOMEBREW_TAP_TOKEN secret is set in the repo. Uncomment once both
+# are in place.
+#
+# brews:
+#   - name: nucleusmcp
+#     repository:
+#       owner: doramirdor
+#       name: homebrew-tap
+#       token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+#     homepage: https://github.com/doramirdor/nucleusmcp
+#     description: "Profile-aware MCP gateway — one connector, many accounts"
+#     license: MIT
+#     install: |
+#       bin.install "nucleusmcp"
