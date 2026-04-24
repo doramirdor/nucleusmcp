@@ -2,6 +2,21 @@
 
 All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) (starting at 0.1.0).
 
+## [0.1.4] — 2026-04-24
+
+### Added
+- **Streamable HTTP transport** via `nucleus serve --http <addr>`. Run nucleus as a long-lived local daemon so you can paste its URL (`http://127.0.0.1:8787/mcp` by default) into Claude's **Add custom connector** dialog, which only accepts HTTP(S) endpoints.
+- Safety defaults for HTTP mode:
+  - Loopback-only binds (127.0.0.1) don't require auth.
+  - Non-loopback binds refuse to start without `--token <secret>`, which activates constant-time-compared bearer-token auth on every request.
+  - Validation runs *before* upstream children are spawned, so a misconfigured bind fails in <1 s instead of wasting an `npx` spawn.
+- `GET /healthz` endpoint for external readiness probes.
+
+### Changed
+- Server construction split: `Gateway.Prepare(ctx)` does the workspace resolve + upstream spawns; `Gateway.ServeStdio()` / `ServeHTTP(ctx, opts)` choose the transport. Stdio behavior unchanged.
+- Banner re-rendered with canonical tagline **"One connector, many accounts."** (was *"one MCP to recommend them all"*). LOTR flavor moved to the orbital rune text only.
+- v0.1.1 / v0.1.2 / v0.1.3 release notes backfilled with the canonical tagline as the opening line.
+
 ## [0.1.3] — 2026-04-24
 
 ### Changed

@@ -74,15 +74,31 @@ nucleus --version
 
 > The product is named **Nucleus**; the GitHub repo and Go module path are `nucleusmcp`, and local state lives under `~/.nucleusmcp/`. These internals kept the legacy name on purpose so pre-rebrand installs and import paths don't break.
 
-### Register with Claude Code
+### Register with Claude
 
-After install, wire the gateway into Claude:
+Two paths depending on which Claude you use.
+
+**Claude Code (CLI / terminal)** — nucleus runs as a stdio MCP spawned by the CLI:
 
 ```bash
 nucleus install
 ```
 
-This runs `claude mcp add nucleus …` for you if the `claude` CLI is on PATH, otherwise it prints a config snippet to paste manually.
+That runs `claude mcp add nucleus …` for you if the `claude` CLI is on PATH, otherwise prints a config snippet to paste.
+
+**Claude UI ("Add custom connector" dialog)** — the UI accepts HTTP URLs only, so run nucleus as a local HTTP daemon and paste its URL:
+
+```bash
+nucleus serve --http 127.0.0.1:8787
+# leave it running; log prints:  claude UI add url=http://127.0.0.1:8787/mcp
+```
+
+Then in Claude: Settings → Connectors → **Add custom connector**
+- **Name:** `nucleus`
+- **Remote MCP server URL:** `http://127.0.0.1:8787/mcp`
+- Leave OAuth fields empty (nucleus handles upstream OAuth itself)
+
+Loopback-only (127.0.0.1) by default so unauthenticated traffic can't reach it from the network. For LAN or tunnel use, pass `--token <secret>` and set it as a bearer token in whatever wraps the URL.
 
 ## Quick start
 
