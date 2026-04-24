@@ -4,7 +4,7 @@
 
 # Nucleus
 
-**One connector, many accounts.** A local MCP gateway that lets Claude (and other MCP clients) connect to multiple authenticated accounts of the same service — prod and staging Supabase, work and personal Gmail, two GitHub orgs — without disconnecting, reconnecting, or losing context.
+**One connector, many accounts.** A local MCP gateway that lets Claude (and other MCP clients) hold multiple authenticated sessions of the same service at once — prod and staging Supabase, work and personal GitHub — without disconnecting every time you switch.
 
 ![Nucleus overview](demo/overview.gif)
 
@@ -25,9 +25,9 @@ You're debugging a staging issue in Claude. Halfway through, the user asks *"doe
 7. Ask the prod question
 8. ...and reverse all of that if you want to get back to staging
 
-Every switch is 2–5 minutes of yak-shaving, a lost conversation, and an interrupted train of thought. If you have *three* Supabase projects, or both a work and a personal GitHub, or prod + staging + dev — the tax compounds.
+Every switch is a few minutes of yak-shaving, a lost conversation, and an interrupted train of thought. If you have *three* Supabase projects, or both a work and a personal GitHub, or prod + staging + dev — the tax compounds.
 
-The shape of the problem isn't Claude's fault; it's how the MCP protocol surfaces "one server, one connection" to the client. But it means the modern way real engineers work — one laptop, many accounts, many projects — collides head-on with the tool every single time you switch.
+The shape of the problem isn't Claude's fault; it's how the MCP protocol surfaces "one server, one connection" to the client. But it means the way engineers actually work — one laptop, many accounts, many projects — collides head-on with the tool every single time you switch.
 
 ## What Nucleus does
 
@@ -40,7 +40,7 @@ github_work_create_issue         → work PAT
 github_personal_create_issue     → personal PAT
 ```
 
-Tool descriptions carry the profile context (`[supabase/prod project_id=…]`) so Claude knows which account each tool targets without you telling it. No disconnect. No reconnect. No lost chat context. The prod vs staging question is a single sentence away — *"compare the users table between prod and staging"* — and Claude has both connections live in the same conversation.
+Tool descriptions carry the profile context (`[supabase/prod project_id=…]`) — every tool Claude sees is labeled with the account it hits, so the question *"which Supabase did you query?"* has an answer right in the tool name. No disconnect. No reconnect. No lost chat context. The prod vs staging question is a single sentence away — *"compare the users table between prod and staging"* — and Claude has both profiles live in the same conversation.
 
 ## Install
 
@@ -72,6 +72,8 @@ export PATH="$HOME/go/bin:$PATH"   # if not already
 nucleus --version
 ```
 
+> The product is named **Nucleus**; the GitHub repo and Go module path are `nucleusmcp`, and local state lives under `~/.nucleusmcp/`. These internals kept the legacy name on purpose so pre-rebrand installs and import paths don't break.
+
 ### Register with Claude Code
 
 After install, wire the gateway into Claude:
@@ -96,7 +98,7 @@ nucleus add supabase
 - Stores the OAuth tokens in a per-profile directory (`~/.nucleusmcp/oauth/<profile-id>/`)
 - Done — Claude picks up the tools on next restart
 
-Add a second profile with a different name (or different account — sign out in your browser between runs for true account isolation):
+Add a second profile with a different name. If it belongs to a different account of the same service, open a private/incognito browser window for the second `add` so the OAuth flow prompts for a fresh login:
 
 ```bash
 nucleus add supabase staging
@@ -193,7 +195,7 @@ The gateway saves a manifest under `~/.nucleusmcp/connectors/<name>.toml` and br
 
 ```bash
 nucleus connectors                 # list known connectors (builtin + custom)
-nucleus list                       # list profiles (connections)
+nucleus list                       # list registered profiles
 nucleus info [profile-id]          # config + live upstream probe
 nucleus add <connector> [name]     # register a new profile (interactive OAuth or PAT)
 nucleus remove <profile-id>        # delete a profile + credentials
@@ -243,27 +245,27 @@ Not yet shipped: write-confirmation policy enforcement, audit log, process sandb
 MCP Client (Claude, Cursor, ...)
         │  MCP protocol (stdio)
         ▼
-┌───────────────────────────────────────────┐
-│  Nucleus gateway                       │
-│  ┌─────────────────────────────────────┐  │
-│  │  Workspace resolver                 │  │  reads cwd config,
-│  │                                     │  │  picks profile(s)
-│  └────────────────┬────────────────────┘  │
-│                   │                        │
-│  ┌────────────────▼────────────────────┐  │
-│  │  Supervisor — spawns upstream MCPs  │  │
-│  │  • stdio connectors (PAT env var)   │  │
-│  │  • HTTP connectors via mcp-remote   │  │
-│  └────────────────┬────────────────────┘  │
-│                   │                        │
-│  ┌────────────────▼────────────────────┐  │
-│  │  Router — tool namespacing + proxy  │  │
-│  │  <connector>_<alias>_<tool>         │  │
-│  └─────────────────────────────────────┘  │
-│                                            │
-│  Registry (SQLite)  ·  Vault (keychain)   │
-│  ~/.nucleusmcp/                            │
-└───────────────────────────────────────────┘
+┌────────────────────────────────────────────┐
+│  Nucleus gateway                           │
+│  ┌──────────────────────────────────────┐  │
+│  │  Workspace resolver                  │  │  reads cwd config,
+│  │                                      │  │  picks profile(s)
+│  └────────────────┬─────────────────────┘  │
+│                   │                         │
+│  ┌────────────────▼─────────────────────┐  │
+│  │  Supervisor — spawns upstream MCPs   │  │
+│  │  • stdio connectors (PAT env var)    │  │
+│  │  • HTTP connectors via mcp-remote    │  │
+│  └────────────────┬─────────────────────┘  │
+│                   │                         │
+│  ┌────────────────▼─────────────────────┐  │
+│  │  Router — tool namespacing + proxy   │  │
+│  │  <connector>_<alias>_<tool>          │  │
+│  └──────────────────────────────────────┘  │
+│                                             │
+│  Registry (SQLite) · Vault (OS keychain)   │
+│  ~/.nucleusmcp/                             │
+└────────────────────────────────────────────┘
         │                           │
         ▼ stdio                     ▼ HTTP + OAuth (via mcp-remote)
   local MCP (GitHub, ...)   hosted MCP (Supabase, Linear, ...)
