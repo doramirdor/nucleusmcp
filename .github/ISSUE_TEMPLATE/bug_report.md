@@ -22,7 +22,7 @@ labels: bug
 
 ### Environment
 
-- `nucleusmcp --version`:
+- `nucleus --version`:
 - OS (+ arch):
 - MCP client (Claude Code / Cursor / …) + version:
 - Upstream MCP (connector name + URL if custom):

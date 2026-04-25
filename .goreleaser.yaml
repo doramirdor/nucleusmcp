@@ -51,7 +51,7 @@ brews:
       owner: doramirdor
       name: homebrew-tap
       token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
-    homepage: https://github.com/doramirdor/nucleusmcp
+    homepage: https://github.com/doramirdor/nucleus
     description: "Profile-aware MCP gateway — one connector, many accounts"
     license: MIT
     install: |

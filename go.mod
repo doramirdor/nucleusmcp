@@ -1,4 +1,4 @@
-module github.com/doramirdor/nucleusmcp
+module github.com/doramirdor/nucleus
 
 go 1.25.0
 
