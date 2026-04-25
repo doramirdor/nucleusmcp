@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/doramirdor/nucleusmcp/internal/connectors"
-	"github.com/doramirdor/nucleusmcp/internal/registry"
+	"github.com/doramirdor/nucleus/internal/connectors"
+	"github.com/doramirdor/nucleus/internal/registry"
 )
 
 // Source describes why a profile was chosen.

@@ -25,9 +25,9 @@ import (
 
 	"github.com/mark3labs/mcp-go/client"
 	"github.com/mark3labs/mcp-go/mcp"
-	"github.com/doramirdor/nucleusmcp/internal/registry"
-	"github.com/doramirdor/nucleusmcp/internal/vault"
-	"github.com/doramirdor/nucleusmcp/pkg/manifest"
+	"github.com/doramirdor/nucleus/internal/registry"
+	"github.com/doramirdor/nucleus/internal/vault"
+	"github.com/doramirdor/nucleus/pkg/manifest"
 )
 
 // McpRemoteConfigEnv is the env var `mcp-remote` reads for its OAuth

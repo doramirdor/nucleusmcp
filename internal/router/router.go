@@ -25,7 +25,7 @@ import (
 
 	"github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
-	"github.com/doramirdor/nucleusmcp/internal/supervisor"
+	"github.com/doramirdor/nucleus/internal/supervisor"
 )
 
 // Router registers proxied tools on a gateway MCP server.

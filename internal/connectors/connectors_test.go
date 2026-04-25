@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/doramirdor/nucleusmcp/pkg/manifest"
+	"github.com/doramirdor/nucleus/pkg/manifest"
 )
 
 // withIsolatedHome points HOME at a fresh tempdir for the duration of
