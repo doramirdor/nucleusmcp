@@ -4,9 +4,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/doramirdor/nucleusmcp/internal/connectors"
-	"github.com/doramirdor/nucleusmcp/internal/registry"
-	"github.com/doramirdor/nucleusmcp/pkg/manifest"
+	"github.com/doramirdor/nucleus/internal/connectors"
+	"github.com/doramirdor/nucleus/internal/registry"
+	"github.com/doramirdor/nucleus/pkg/manifest"
 	"github.com/spf13/cobra"
 )
 

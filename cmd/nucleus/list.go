@@ -8,7 +8,7 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"github.com/doramirdor/nucleusmcp/internal/connectors"
+	"github.com/doramirdor/nucleus/internal/connectors"
 	"github.com/spf13/cobra"
 )
 

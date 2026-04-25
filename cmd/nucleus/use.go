@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/doramirdor/nucleusmcp/internal/registry"
+	"github.com/doramirdor/nucleus/internal/registry"
 	"github.com/spf13/cobra"
 )
 

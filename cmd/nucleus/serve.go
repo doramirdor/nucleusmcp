@@ -8,8 +8,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/doramirdor/nucleusmcp/internal/config"
-	"github.com/doramirdor/nucleusmcp/internal/server"
+	"github.com/doramirdor/nucleus/internal/config"
+	"github.com/doramirdor/nucleus/internal/server"
 	"github.com/spf13/cobra"
 )
 

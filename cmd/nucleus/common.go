@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/doramirdor/nucleusmcp/internal/registry"
-	"github.com/doramirdor/nucleusmcp/internal/vault"
+	"github.com/doramirdor/nucleus/internal/registry"
+	"github.com/doramirdor/nucleus/internal/vault"
 )
 
 // openRegistry opens the profile registry at the default path.
