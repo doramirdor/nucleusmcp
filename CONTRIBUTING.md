@@ -5,8 +5,8 @@ Thanks for taking the time. This is a small project and contributions don't need
 ## Dev setup
 
 ```bash
-git clone https://github.com/doramirdor/nucleusmcp
-cd nucleusmcp
+git clone https://github.com/doramirdor/nucleus
+cd nucleus
 make build       # go build → ./bin/nucleus
 make test        # go test ./...
 make vet         # go vet ./...

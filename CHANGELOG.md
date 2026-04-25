@@ -2,6 +2,12 @@
 
 All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) (starting at 0.1.0).
 
+## [Unreleased]
+
+### Changed
+- **Repo and Go module path renamed `nucleusmcp` → `nucleus`.** New clone URL: `https://github.com/doramirdor/nucleus`. New `go install` path: `go install github.com/doramirdor/nucleus/cmd/nucleus@latest`. The old GitHub URL auto-redirects, but downstream consumers vendoring the module by import path must update.
+- On-disk storage paths (`~/.nucleusmcp/registry.db`, `~/.nucleusmcp/oauth/…`, `~/.nucleusmcp/connectors/…`, `~/.nucleusmcp/config.toml`) and the OS keychain service string (`nucleusmcp`) are **unchanged**, so existing profiles and credentials remain accessible after the rename. Earlier release notes that documented those exceptions still apply.
+
 ## [0.1.4] — 2026-04-24
 
 ### Added
