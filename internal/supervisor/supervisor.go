@@ -190,7 +190,7 @@ func (s *Supervisor) SpawnProfile(
 	ctx context.Context,
 	m manifest.Manifest,
 	p registry.Profile,
-	v *vault.Vault,
+	v vault.Backend,
 ) (*Child, error) {
 	transport := m.Transport
 	if transport == "" {
@@ -210,7 +210,7 @@ func (s *Supervisor) SpawnProfile(
 // and injected into its environment.
 func (s *Supervisor) spawnStdio(
 	ctx context.Context, m manifest.Manifest,
-	p registry.Profile, v *vault.Vault,
+	p registry.Profile, v vault.Backend,
 ) (*Child, error) {
 	env, err := buildStdioEnv(m, p, v)
 	if err != nil {
@@ -235,7 +235,7 @@ func (s *Supervisor) spawnStdio(
 // auth dir so multiple OAuth sessions stay isolated.
 func (s *Supervisor) spawnHTTP(
 	ctx context.Context, m manifest.Manifest,
-	p registry.Profile, v *vault.Vault,
+	p registry.Profile, v vault.Backend,
 ) (*Child, error) {
 	if m.URL == "" {
 		return nil, fmt.Errorf("manifest %s: http transport requires URL", m.Name)
@@ -443,7 +443,7 @@ func (s *Supervisor) StopReaper() {
 // buildStdioEnv merges parent env + manifest static env + per-profile
 // credentials from the vault. Credentials override anything with the
 // same key.
-func buildStdioEnv(m manifest.Manifest, p registry.Profile, v *vault.Vault) ([]string, error) {
+func buildStdioEnv(m manifest.Manifest, p registry.Profile, v vault.Backend) ([]string, error) {
 	env := os.Environ()
 
 	for k, val := range m.Spawn.StaticEnv {
